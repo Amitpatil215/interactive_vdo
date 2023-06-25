@@ -7,11 +7,11 @@ class DataBase {
       doorNo: "Kid",
       videoId:
           "https://assets.mixkit.co/videos/preview/mixkit-little-girl-next-to-baskets-of-easter-eggs-48596-large.mp4",
-      connectedDoorNos: ["Baloon", "Chocolate"], //  baloon or chocolate
+      connectedDoorNos: ["Balloon", "Chocolate"], //  Balloon or chocolate
       showInteractiveButtonAfterSeconds: const Duration(seconds: 5).inSeconds,
     ),
     Door(
-      doorNo: "Baloon",
+      doorNo: "Balloon",
       videoId:
           "https://assets.mixkit.co/videos/preview/mixkit-eastern-egg-picnic-in-the-garden-48599-large.mp4",
 
@@ -50,7 +50,7 @@ class DataBase {
       doorNo: "Dance", // dance
       videoId:
           "https://assets.mixkit.co/videos/preview/mixkit-woman-in-a-floral-shirt-dancing-1228-large.mp4",
-      connectedDoorNos: ["Paint", "Baloon"], // paint or balloon
+      connectedDoorNos: ["Paint", "Balloon"], // paint or balloon
       showInteractiveButtonAfterSeconds: 5,
     ),
     Door(
