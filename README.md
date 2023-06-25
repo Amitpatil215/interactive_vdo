@@ -4,6 +4,10 @@
 
 This project is a Flutter application that allows users to play videos based on their interaction with the app. The app isolates and preloads possible user decisions for faster performance.
 
+
+https://github.com/Amitpatil215/interactive_vdo/assets/54329870/7e649524-131c-4314-8499-2f76617bfb91
+
+
 ## Features
 
 - Play videos based on user interaction
