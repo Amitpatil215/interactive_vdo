@@ -16,6 +16,9 @@ https://github.com/Amitpatil215/interactive_vdo/assets/54329870/7e649524-131c-43
 
 - Play videos based on user interaction
 - Isolates and preloads possible user decisions for faster performance
+- User decision history (GO back functionality)
+- Show interactive buttons at perticualr timestamp in the video
+- Restart game at any point in the app
 
 ## Installation
 
