@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_preload_videos/core/constants.dart';
 import 'package:flutter_preload_videos/main.dart';
 import 'package:flutter_preload_videos/model/door.dart';
@@ -20,12 +21,13 @@ class GameController extends ChangeNotifier {
   /// Maintains the list of previous video player controllers
   /// It will be used to dispose the controllers as well as used to
   /// preload the videos
-  Map<String, VideoPlayerController> previousVideoPlayerControllers = {};
+  static Map<String, VideoPlayerController> previousVideoPlayerControllers = {};
 
   /// Constructor
   GameController() {
     currentDoor = DataBase.doorsDB.firstWhere((door) => door.doorNo == "Kid");
   }
+
   /// getter
   bool get showInteractiveButtons => _showInteractiveButtons;
 
@@ -68,9 +70,7 @@ class GameController extends ChangeNotifier {
     decsionStack.add(currentDoor);
 
     /// Initialize options video
-    await Future.forEach(connectedDoors, (Door door) async {
-      await _initializeControllerAtIndex(door.videoId, door.doorNo);
-    });
+    createIsolate(currentDoor.doorNo);
   }
 
   Future reStartGame() async {
@@ -132,9 +132,10 @@ class GameController extends ChangeNotifier {
     _playControllerAtIndex(doorNo);
 
     /// Initialize options video
-    await Future.forEach(connectedDoors, (Door door) async {
-      await _initializeControllerAtIndex(door.videoId, door.doorNo);
-    });
+
+    // await Future.forEach(connectedDoors, (Door door) async {
+    //   await _initializeControllerAtIndex(door.videoId, door.doorNo);
+    // });
   }
 
   /// Initialize controller at [doorNo]
@@ -144,9 +145,20 @@ class GameController extends ChangeNotifier {
   /// 4. Notify listeners
   Future _initializeControllerAtIndex(String videoUrl, String doorNo) async {
     /// Create new controller
-    final VideoPlayerController _controller = VideoPlayerController.network(
-      videoUrl,
-    );
+    FileInfo? fileInfo =
+        await DefaultCacheManager().getFileFromMemory(videoUrl);
+    late VideoPlayerController _controller;
+
+    if (fileInfo == null) {
+      log("loading video from cache");
+      _controller = VideoPlayerController.network(
+        videoUrl,
+      );
+    } else {
+      _controller = VideoPlayerController.file(
+        fileInfo.file,
+      );
+    }
 
     /// Add to [controllers] list
     previousVideoPlayerControllers[doorNo] = _controller;
@@ -165,7 +177,7 @@ class GameController extends ChangeNotifier {
   void _playControllerAtIndex(String doorNo) {
     /// Get controller at [index]
     VideoPlayerController? _controller = previousVideoPlayerControllers[doorNo];
-
+    log("is controller null?" + (_controller == null).toString());
     //if null then initialize
     if (_controller == null) {
       _initializeControllerAtIndex(

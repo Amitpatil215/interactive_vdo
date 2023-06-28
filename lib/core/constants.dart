@@ -77,10 +77,17 @@ class DataBase {
   ];
 
   //get list of connected door videoUrls from doorNo
-  static List<String> getConnectedDoorVideoUrls(String doorNo) {
-    return doorsDB
-        .where((door) => door.doorNo == doorNo)
-        .map((door) => door.videoId)
-        .toList();
+  static List<Door> getConnectedDoors(String doorNo) {
+    // get list of connected doorNos
+    List<String> connectedDoorNos =
+        doorsDB.firstWhere((door) => door.doorNo == doorNo).connectedDoorNos;
+    //create lsit of doors from connected doorNos
+    List<Door> connectedDoors = [];
+    for (var door in doorsDB) {
+      if (connectedDoorNos.contains(door.doorNo)) {
+        connectedDoors.add(door);
+      }
+    }
+    return connectedDoors;
   }
 }

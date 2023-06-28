@@ -28,7 +28,7 @@ class _VideoPageState extends State<VideoPage> {
       child: Consumer<GameController>(
         builder: (context, gameController, _) {
           VideoPlayerController _controller =
-              gameController.previousVideoPlayerControllers[
+              GameController.previousVideoPlayerControllers[
                   gameController.currentDoor.doorNo]!;
 
           _controller.addListener(() async {
@@ -40,7 +40,7 @@ class _VideoPageState extends State<VideoPage> {
             children: [
               VideoWidget(
                 isLoading: false,
-                controller: gameController.previousVideoPlayerControllers[
+                controller: GameController.previousVideoPlayerControllers[
                     gameController.currentDoor.doorNo]!,
               ),
               Positioned(
